@@ -1,5 +1,6 @@
 import Themes from '../models/theme';
 import { Request, ResponseToolkit } from '@hapi/hapi';
+import { formatText } from '../utils/utils';
 
 // type Themes
 interface Themes {
@@ -38,7 +39,7 @@ const createTheme = async (request: Request, h: ResponseToolkit) => {
     try {
         const { name } = request.payload as Themes;
         const theme = await Themes.Theme.create({
-            name: name,
+            name: formatText(name),
         });
         return {
             data: theme,
@@ -54,20 +55,4 @@ const createTheme = async (request: Request, h: ResponseToolkit) => {
     }
 };
 
-export default [
-    {
-        method: 'GET',
-        path: '/themes',
-        handler: getAllThemes,
-    },
-    {
-        method: 'GET',
-        path: '/themes/{id}',
-        handler: getOneTheme,
-    },
-    {
-        method: 'POST',
-        path: '/themes',
-        handler: createTheme,
-    },
-];
+export default { getAllThemes, getOneTheme, createTheme };

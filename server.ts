@@ -10,7 +10,7 @@ const server = Hapi.server({
     //     process.env.NODE_ENV === 'dev'
     //         ? 'localhost'
     //         : 'us-cdbr-east-05.cleardb.net',
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 1234,
     routes: {
         files: {
             relativeTo: path.join(__dirname, 'static'),

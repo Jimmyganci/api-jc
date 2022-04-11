@@ -1,5 +1,6 @@
 import Links from '../models/link';
 import { Request, ResponseToolkit } from '@hapi/hapi';
+import { formatText } from '../utils/utils';
 
 // type Links
 interface Links {
@@ -19,13 +20,28 @@ const getAllLinks = async (_request: Request, h: ResponseToolkit) => {
     }
 };
 
+const getLinksByTheme = async (request: Request, h: ResponseToolkit) => {
+    const { idTheme } = request.params as Links;
+    try {
+        const links = await Links.Link.findAll({
+            where: {
+                idTheme: idTheme,
+            },
+        });
+        return links;
+    } catch (error) {
+        if (error instanceof Error)
+            return h.response({ error: error.message }).code(400);
+    }
+};
+
 // create link
 const createLink = async (request: Request, h: ResponseToolkit) => {
     try {
         const { title, url, idTheme } = request.payload as Links;
 
         const link = await Links.Link.create({
-            title: title,
+            title: formatText(title),
             url: url,
             idTheme: idTheme,
         });
@@ -43,15 +59,4 @@ const createLink = async (request: Request, h: ResponseToolkit) => {
     }
 };
 
-export default [
-    {
-        method: 'GET',
-        path: '/links',
-        handler: getAllLinks,
-    },
-    {
-        method: 'POST',
-        path: '/links',
-        handler: createLink,
-    },
-];
+export default { createLink, getAllLinks, getLinksByTheme };
