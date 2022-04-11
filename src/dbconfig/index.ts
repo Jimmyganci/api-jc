@@ -7,7 +7,7 @@ dotenv.config();
 const sequelize = new Sequelize(
     (process.env.NODE_ENV === 'dev'
         ? process.env.DATABASE_URL_DEV
-        : process.env.DATABASE_URL_PROD) || ''
+        : process.env.DATABASE_URL) || ''
 );
 // }
 

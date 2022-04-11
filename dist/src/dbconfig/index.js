@@ -20,7 +20,7 @@ dotenv_1.default.config();
 // if (process.env.DATABASE_URL) {
 const sequelize = new sequelize_1.Sequelize((process.env.NODE_ENV === 'dev'
     ? process.env.DATABASE_URL_DEV
-    : process.env.DATABASE_URL_PROD) || '');
+    : process.env.DATABASE_URL) || '');
 // }
 // testing connection with database
 function testConnection() {
