@@ -7,7 +7,7 @@ import routes from './src/routes';
 // create server hapi localhost
 const server = Hapi.server({
     host:
-        process.env.NODEE_ENV === 'dev'
+        process.env.NODE_ENV === 'dev'
             ? 'localhost'
             : 'us-cdbr-east-05.cleardb.net',
     port: process.env.PORT || 3000,
