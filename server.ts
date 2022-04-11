@@ -9,7 +9,7 @@ const server = Hapi.server({
     host:
         process.env.NODEE_ENV === 'dev'
             ? 'localhost'
-            : 'https://api-jc.herokuapp.com/',
+            : 'us-cdbr-east-05.cleardb.net',
     port: process.env.PORT || 3000,
     routes: {
         files: {

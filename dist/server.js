@@ -21,7 +21,7 @@ const routes_1 = __importDefault(require("./src/routes"));
 const server = hapi_1.default.server({
     host: process.env.NODEE_ENV === 'dev'
         ? 'localhost'
-        : 'https://api-jc.herokuapp.com/',
+        : 'us-cdbr-east-05.cleardb.net',
     port: process.env.PORT || 3000,
     routes: {
         files: {
