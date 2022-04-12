@@ -7,7 +7,7 @@ import routes from './src/routes';
 
 // create server hapi localhost
 const server = Hapi.server({
-    host: process.env.HOST || 'localhost',
+    host: process.env.HOST || 'api-jc.herokuapp.com/',
     port: process.env.PORT || 1234,
     routes: {
         files: {
