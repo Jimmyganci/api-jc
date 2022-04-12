@@ -1,3 +1,4 @@
+import { verifToken } from '../plugins/authKeyApi';
 import Links from './links';
 import Themes from './themes';
 
@@ -11,6 +12,11 @@ export default [
     {
         method: 'GET',
         path: '/links',
+        config: {
+            ext: {
+                onPreAuth: { method: verifToken },
+            },
+        },
         handler: Links.getAllLinks,
     },
     {

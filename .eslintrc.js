@@ -19,6 +19,7 @@ module.exports = {
         sourceType: 'module',
         tsconfigRootDir: __dirname,
     },
+    ignorePatterns: ['.eslintrc.js'], // !!! new and important part !!!
     plugins: ['@typescript-eslint'],
     rules: {
         'prettier/prettier': ['error', {}, { usePrettierrc: true }], // Use our .prettierrc file as source

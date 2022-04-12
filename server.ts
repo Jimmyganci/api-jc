@@ -1,15 +1,13 @@
 // import hapi type
 import Hapi from '@hapi/hapi';
 import path from 'path';
+import { verifToken } from './src/plugins/authKeyApi';
 // create router from ./routes/index
 import routes from './src/routes';
 
 // create server hapi localhost
 const server = Hapi.server({
-    // host:
-    //     process.env.NODE_ENV === 'dev'
-    //         ? 'localhost'
-    //         : 'us-cdbr-east-05.cleardb.net',
+    host: (process.env.NODE_ENV === 'dev' && 'localhost') || '',
     port: process.env.PORT || 1234,
     routes: {
         files: {
@@ -18,6 +16,7 @@ const server = Hapi.server({
     },
 });
 
+server.ext('onPreAuth', verifToken, { sandbox: 'plugin' });
 // create router
 server.route(routes);
 

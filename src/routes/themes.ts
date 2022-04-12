@@ -38,13 +38,22 @@ const getOneTheme = async (request: Request, h: ResponseToolkit) => {
 const createTheme = async (request: Request, h: ResponseToolkit) => {
     try {
         const { name } = request.payload as Themes;
-        const theme = await Themes.Theme.create({
-            name: formatText(name),
+        const themeExisting = await Themes.Theme.findOne({
+            where: {
+                name: name,
+            },
         });
-        return {
-            data: theme,
-            message: 'New theme has been created.',
-        };
+        if (!themeExisting) {
+            const theme = await Themes.Theme.create({
+                name: formatText(name),
+            });
+            return {
+                data: theme,
+                message: 'New theme has been created.',
+            };
+        } else {
+            return h.response({ error: 'Theme already exist' }).code(409);
+        }
     } catch (error) {
         if (error instanceof Error)
             return h
