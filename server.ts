@@ -17,6 +17,15 @@ const server = Hapi.server({
 });
 
 server.ext('onPreAuth', verifToken, { sandbox: 'plugin' });
+//configure cookie
+server.state('data', {
+    ttl: 24 * 60 * 60 * 1000, // One day
+    isSecure: process.env.NODE_ENV === 'dev' ? false : true,
+    isHttpOnly: process.env.NODE_ENV === 'dev' ? true : false,
+    encoding: 'base64json',
+    clearInvalid: false,
+    strictHeader: true,
+});
 // create router
 server.route(routes);
 

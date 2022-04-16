@@ -1,13 +1,7 @@
 import Users from '../models/user';
 import { Request, ResponseToolkit } from '@hapi/hapi';
 import UserAuth from '../helpers/users';
-
-// type Users
-interface Users {
-    id: number;
-    email: string;
-    password: string;
-}
+import IUsers from '../interfaces/users';
 
 // get all users
 const getAllUsers = async (request: Request, h: ResponseToolkit) => {
@@ -22,7 +16,7 @@ const getAllUsers = async (request: Request, h: ResponseToolkit) => {
 
 // get just one user
 const getOneUser = async (request: Request, h: ResponseToolkit) => {
-    const { id } = request.params as Users;
+    const { id } = request.params as IUsers;
     try {
         const user = await Users.User.findByPk(id);
         return user
@@ -37,8 +31,8 @@ const getOneUser = async (request: Request, h: ResponseToolkit) => {
 // create theme
 const updateUser = async (request: Request, h: ResponseToolkit) => {
     try {
-        const { id } = request.params as Users;
-        const { email, password } = request.payload as Users;
+        const { id } = request.params as IUsers;
+        const { email, password } = request.payload as IUsers;
         const userExisting = await Users.User.findOne({
             where: {
                 id: id,

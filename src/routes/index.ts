@@ -1,6 +1,7 @@
 import Links from './links';
 import Themes from './themes';
 import Users from './users';
+import Auth from './auth';
 
 //here all api's routes
 //method: GET, POST, DELETE or UPDATE
@@ -61,5 +62,13 @@ export default [
         method: 'PUT',
         path: '/users/{id}',
         handler: Users.updateUser,
+    },
+    //----------------------------
+    //----------Auth--------------
+    //----------------------------
+    {
+        method: 'POST',
+        path: '/auth',
+        handler: Auth.userLoggedIn,
     },
 ];
