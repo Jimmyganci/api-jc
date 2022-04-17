@@ -29,7 +29,7 @@ server.state('data', {
     encoding: 'base64json',
     clearInvalid: true,
     strictHeader: true,
-    isSameSite: 'Strict',
+    isSameSite: process.env.NODE_ENV == 'dev' ? 'Strict' : 'None',
 });
 // create router
 server.route(routes);
