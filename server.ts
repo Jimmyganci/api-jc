@@ -24,12 +24,12 @@ server.ext('onPreAuth', verifToken, { sandbox: 'plugin' });
 //configure cookie
 server.state('data', {
     ttl: 24 * 60 * 60 * 1000, // One day
-    isSecure: false,
-    isHttpOnly: false,
+    isSecure: process.env.NODE_ENV !== 'dev',
+    isHttpOnly: process.env.NODE_ENV === 'dev',
     encoding: 'base64json',
-    clearInvalid: false,
+    clearInvalid: true,
     strictHeader: true,
-    isSameSite: process.env.NODE_ENV == 'dev' ? 'Strict' : 'Lax',
+    isSameSite: process.env.NODE_ENV === 'dev' ? 'Strict' : 'None',
 });
 // create router
 server.route(routes);
