@@ -24,10 +24,10 @@ server.ext('onPreAuth', verifToken, { sandbox: 'plugin' });
 //configure cookie
 server.state('data', {
     ttl: 24 * 60 * 60 * 1000, // One day
-    isSecure: process.env.NODE_ENV !== 'dev',
-    isHttpOnly: process.env.NODE_ENV === 'dev',
+    isSecure: false,
+    isHttpOnly: false,
     encoding: 'base64json',
-    clearInvalid: true,
+    clearInvalid: false,
     strictHeader: true,
     isSameSite: process.env.NODE_ENV == 'dev' ? 'Strict' : 'Lax',
 });
