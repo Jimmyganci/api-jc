@@ -4,8 +4,6 @@ import UserAuth from '../helpers/users';
 import IUsers from '../interfaces/users';
 
 const userLoggedIn = async (request: Request, h: ResponseToolkit) => {
-    console.log(request.state);
-
     try {
         const { email, password } = request.payload as IUsers;
         const getUser = await Users.User.findOne({
