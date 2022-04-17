@@ -13,6 +13,10 @@ const server = Hapi.server({
         files: {
             relativeTo: path.join(__dirname, 'static'),
         },
+        cors: {
+            origin: undefined,
+            credentials: true,
+        },
     },
 });
 
@@ -20,11 +24,12 @@ server.ext('onPreAuth', verifToken, { sandbox: 'plugin' });
 //configure cookie
 server.state('data', {
     ttl: 24 * 60 * 60 * 1000, // One day
-    isSecure: process.env.NODE_ENV === 'dev' ? false : true,
-    isHttpOnly: process.env.NODE_ENV === 'dev' ? true : false,
+    isSecure: process.env.NODE_ENV !== 'dev',
+    isHttpOnly: process.env.NODE_ENV === 'dev',
     encoding: 'base64json',
-    clearInvalid: false,
+    clearInvalid: true,
     strictHeader: true,
+    isSameSite: process.env.NODE_ENV == 'dev' ? 'Strict' : 'None',
 });
 // create router
 server.route(routes);

@@ -4,6 +4,8 @@ import UserAuth from '../helpers/users';
 import IUsers from '../interfaces/users';
 
 const userLoggedIn = async (request: Request, h: ResponseToolkit) => {
+    console.log(request.state);
+
     try {
         const { email, password } = request.payload as IUsers;
         const getUser = await Users.User.findOne({
@@ -24,10 +26,10 @@ const userLoggedIn = async (request: Request, h: ResponseToolkit) => {
                 );
 
                 const token = UserAuth.calculateToken(hashValueToken);
-                h.state('data', token);
                 return h
                     .response(`User with ${getUser.id} connected!`)
-                    .code(200);
+                    .code(200)
+                    .state('data', token);
             } else {
                 return h.response({ error: 'Invalid Credentials' }).code(401);
             }
