@@ -27,6 +27,11 @@ export default [
         path: '/links/{idTheme}',
         handler: Links.getLinksByTheme,
     },
+    {
+        method: 'PUT',
+        path: '/links/{id}',
+        handler: Links.updateLink,
+    },
     //---------------------------------
     //--------- themes routes----------
     //---------------------------------

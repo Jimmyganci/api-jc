@@ -4,9 +4,11 @@ import { formatText } from '../utils/utils';
 
 // type Links
 interface Links {
+    id: number;
     title: string;
     url: string;
     idTheme: number;
+    active: boolean;
 }
 
 // get all links
@@ -44,6 +46,7 @@ const createLink = async (request: Request, h: ResponseToolkit) => {
             title: formatText(title),
             url: url,
             idTheme: idTheme,
+            active: true,
         });
         return {
             data: link,
@@ -59,4 +62,27 @@ const createLink = async (request: Request, h: ResponseToolkit) => {
     }
 };
 
-export default { createLink, getAllLinks, getLinksByTheme };
+const updateLink = async (request: Request, h: ResponseToolkit) => {
+    try {
+        const { id } = request.params as Links;
+        const { title, url, idTheme, active } = request.payload as Links;
+        const updatedLink = await Links.Link.update(
+            { active: active, title: title, url: url, idTheme: idTheme },
+            {
+                where: {
+                    id: id,
+                },
+            }
+        );
+        return updatedLink;
+    } catch (error) {
+        if (error instanceof Error)
+            return h
+                .response({
+                    error: error.message,
+                })
+                .code(400);
+    }
+};
+
+export default { createLink, getAllLinks, getLinksByTheme, updateLink };

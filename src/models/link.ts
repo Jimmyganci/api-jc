@@ -9,6 +9,7 @@ interface LinkAttributes {
     title: string;
     url: string;
     idTheme: number;
+    active: boolean;
 }
 
 type LinkCreationAttributes = Optional<LinkAttributes, 'id'>;
@@ -32,6 +33,9 @@ const Link = dbConnection.define<LinkInstance>('links', {
     },
     idTheme: {
         type: DataTypes.NUMBER,
+    },
+    active: {
+        type: DataTypes.BOOLEAN,
     },
 });
 
