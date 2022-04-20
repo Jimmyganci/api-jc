@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 const PRIVATE_KEY = process.env.TOKEN;
 
 const calculateToken = (hashValueToken = '') => {
-    return jwt.sign({ key: hashValueToken }, String(PRIVATE_KEY));
+    return jwt.sign({ hashValueToken }, String(PRIVATE_KEY));
 };
 
 const hashingOptions = {

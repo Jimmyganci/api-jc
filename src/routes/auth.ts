@@ -24,6 +24,7 @@ const userLoggedIn = async (request: Request, h: ResponseToolkit) => {
                 );
 
                 const token = UserAuth.calculateToken(hashValueToken);
+                console.log(token);
                 return h
                     .response(`User with ${getUser.id} connected!`)
                     .code(200)

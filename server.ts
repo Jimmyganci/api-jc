@@ -26,7 +26,7 @@ server.state('data', {
     ttl: 24 * 60 * 60 * 1000, // One day
     isSecure: process.env.NODE_ENV !== 'dev',
     isHttpOnly: process.env.NODE_ENV === 'dev',
-    encoding: 'base64json',
+    encoding: 'none',
     clearInvalid: true,
     strictHeader: true,
     isSameSite: process.env.NODE_ENV === 'dev' ? 'Strict' : 'None',
