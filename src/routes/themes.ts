@@ -6,6 +6,7 @@ import { formatText } from '../utils/utils';
 interface Themes {
     id: number;
     name: string;
+    active: boolean;
 }
 
 // get all users
@@ -46,6 +47,7 @@ const createTheme = async (request: Request, h: ResponseToolkit) => {
         if (!themeExisting) {
             const theme = await Themes.Theme.create({
                 name: formatText(name),
+                active: true,
             });
             return {
                 data: theme,
@@ -64,4 +66,53 @@ const createTheme = async (request: Request, h: ResponseToolkit) => {
     }
 };
 
-export default { getAllThemes, getOneTheme, createTheme };
+const updateTheme = async (request: Request, h: ResponseToolkit) => {
+    try {
+        const { id } = request.params as Themes;
+        const { name, active } = request.payload as Themes;
+        const updatedTheme = await Themes.Theme.update(
+            { active: active, name: name },
+            {
+                where: {
+                    id: id,
+                },
+            }
+        );
+        return updatedTheme;
+    } catch (error) {
+        if (error instanceof Error)
+            return h
+                .response({
+                    error: error.message,
+                })
+                .code(400);
+    }
+};
+
+const deleteTheme = async (request: Request, h: ResponseToolkit) => {
+    try {
+        const { id } = request.params as Themes;
+        const themeDeleted = await Themes.Theme.destroy({
+            where: {
+                id: id,
+            },
+        });
+        console.log(themeDeleted);
+        return themeDeleted;
+    } catch (error) {
+        if (error instanceof Error)
+            return h
+                .response({
+                    error: error.message,
+                })
+                .code(400);
+    }
+};
+
+export default {
+    getAllThemes,
+    getOneTheme,
+    createTheme,
+    updateTheme,
+    deleteTheme,
+};

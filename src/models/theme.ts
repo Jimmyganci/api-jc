@@ -7,6 +7,7 @@ const dbConnection = connect;
 interface ThemeAttributes {
     id: number;
     name: string;
+    active: boolean;
 }
 
 type LinkCreationAttributes = Optional<ThemeAttributes, 'id'>;
@@ -24,6 +25,9 @@ const Theme = dbConnection.define<ThemeInstance>('themes', {
     },
     name: {
         type: DataTypes.STRING,
+    },
+    active: {
+        type: DataTypes.BOOLEAN,
     },
 });
 

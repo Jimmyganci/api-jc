@@ -60,6 +60,16 @@ export default [
         path: '/themes',
         handler: Themes.createTheme,
     },
+    {
+        method: 'PUT',
+        path: '/themes/{id}',
+        handler: Themes.updateTheme,
+    },
+    {
+        method: 'DELETE',
+        path: '/themes/{id}',
+        handler: Themes.deleteTheme,
+    },
     //------------------------------
     //--------- users routes--------
     //------------------------------

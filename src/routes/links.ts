@@ -52,7 +52,6 @@ const getLinksByTheme = async (request: Request, h: ResponseToolkit) => {
 const createLink = async (request: Request, h: ResponseToolkit) => {
     try {
         const { title, url, idTheme } = request.payload as Links;
-        console.log(title, url, idTheme);
 
         const link = await Links.Link.create({
             title: formatText(title),
