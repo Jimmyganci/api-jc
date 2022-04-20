@@ -97,7 +97,6 @@ const deleteTheme = async (request: Request, h: ResponseToolkit) => {
                 id: id,
             },
         });
-        console.log(themeDeleted);
         return themeDeleted;
     } catch (error) {
         if (error instanceof Error)
