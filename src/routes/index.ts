@@ -18,19 +18,29 @@ export default [
         handler: Links.getAllLinks,
     },
     {
+        method: 'GET',
+        path: '/links/{id}',
+        handler: Links.getOneLink,
+    },
+    {
         method: 'POST',
         path: '/links',
         handler: Links.createLink,
     },
     {
         method: 'GET',
-        path: '/links/{idTheme}',
+        path: '/themes/links{idTheme}',
         handler: Links.getLinksByTheme,
     },
     {
         method: 'PUT',
         path: '/links/{id}',
         handler: Links.updateLink,
+    },
+    {
+        method: 'DELETE',
+        path: '/links/{id}',
+        handler: Links.deleteLink,
     },
     //---------------------------------
     //--------- themes routes----------

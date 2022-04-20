@@ -22,6 +22,17 @@ const getAllLinks = async (_request: Request, h: ResponseToolkit) => {
     }
 };
 
+const getOneLink = async (request: Request, h: ResponseToolkit) => {
+    try {
+        const { id } = request.params as Links;
+        const link = await Links.Link.findByPk(id);
+        return link;
+    } catch (error) {
+        if (error instanceof Error)
+            return h.response({ error: error.message }).code(400);
+    }
+};
+
 const getLinksByTheme = async (request: Request, h: ResponseToolkit) => {
     const { idTheme } = request.params as Links;
     try {
@@ -86,4 +97,30 @@ const updateLink = async (request: Request, h: ResponseToolkit) => {
     }
 };
 
-export default { createLink, getAllLinks, getLinksByTheme, updateLink };
+const deleteLink = async (request: Request, h: ResponseToolkit) => {
+    try {
+        const { id } = request.params as Links;
+        const linkDeleted = await Links.Link.destroy({
+            where: {
+                id: id,
+            },
+        });
+        return linkDeleted;
+    } catch (error) {
+        if (error instanceof Error)
+            return h
+                .response({
+                    error: error.message,
+                })
+                .code(400);
+    }
+};
+
+export default {
+    createLink,
+    getAllLinks,
+    getLinksByTheme,
+    updateLink,
+    getOneLink,
+    deleteLink,
+};
