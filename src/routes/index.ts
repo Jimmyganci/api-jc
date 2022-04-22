@@ -88,6 +88,16 @@ export default [
         path: '/users/{id}',
         handler: Users.updateUser,
     },
+    {
+        method: 'POST',
+        path: '/users',
+        handler: Users.createUser,
+    },
+    {
+        method: 'DELETE',
+        path: '/users/{id}',
+        handler: Users.deleteUser,
+    },
     //----------------------------
     //----------Auth--------------
     //----------------------------
