@@ -13,17 +13,24 @@ const userLoggedIn = async (request: Request, h: ResponseToolkit) => {
         });
         if (!getUser) {
             return h.response({ error: 'User not found' }).code(404);
+        } else if (!getUser.admin) {
+            return h
+                .response({ error: "Vous n'êtes pas administrateur!" })
+                .code(401);
         } else {
             const verifPassword = await UserAuth.verifyPassword(
                 password,
                 getUser.password
             );
             if (verifPassword) {
-                const hashValueToken = await UserAuth.hashPassword(
-                    getUser.email + ' ' + getUser.id
-                );
+                // const hashValueToken = await UserAuth.hashPassword(
+                //     getUser.email + ' ' + getUser.id
+                // );
 
-                const token = UserAuth.calculateToken(hashValueToken);
+                const token = UserAuth.calculateToken(
+                    getUser.email,
+                    getUser.id
+                );
                 return h
                     .response(`User with ${getUser.id} connected!`)
                     .code(200)
@@ -38,4 +45,8 @@ const userLoggedIn = async (request: Request, h: ResponseToolkit) => {
     }
 };
 
-export default { userLoggedIn };
+const logout = async (request: Request, h: ResponseToolkit) => {
+    if (request.state) return h.response('Bye').unstate('data');
+};
+
+export default { userLoggedIn, logout };

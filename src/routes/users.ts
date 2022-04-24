@@ -2,6 +2,7 @@ import Users from '../models/user';
 import { Request, ResponseToolkit } from '@hapi/hapi';
 import UserAuth from '../helpers/users';
 import IUsers from '../interfaces/users';
+import { formatText } from '../utils/utils';
 
 // get all users
 const getAllUsers = async (request: Request, h: ResponseToolkit) => {
@@ -20,7 +21,14 @@ const getOneUser = async (request: Request, h: ResponseToolkit) => {
     try {
         const user = await Users.User.findByPk(id);
         return user
-            ? { email: user.email, active: user.active }
+            ? {
+                  id: user.id,
+                  email: user.email,
+                  active: user.active,
+                  admin: user.admin,
+                  firstname: user.firstname,
+                  lastname: user.lastname,
+              }
             : h.response({ error: `User with ${id} Not Found` }).code(404);
     } catch (error) {
         if (error instanceof Error)
@@ -31,7 +39,9 @@ const getOneUser = async (request: Request, h: ResponseToolkit) => {
 // create user
 const createUser = async (request: Request, h: ResponseToolkit) => {
     try {
-        const { email, password } = request.payload as IUsers;
+        const { email, password, firstname, lastname } =
+            request.payload as IUsers;
+
         const emailExisting = await Users.User.findOne({
             where: {
                 email: email,
@@ -43,6 +53,9 @@ const createUser = async (request: Request, h: ResponseToolkit) => {
                 email: email,
                 password: newPassword,
                 active: true,
+                admin: false,
+                firstname: firstname && formatText(firstname),
+                lastname: lastname && lastname.toUpperCase(),
             });
             return {
                 id: createUser.id,
@@ -65,17 +78,26 @@ const createUser = async (request: Request, h: ResponseToolkit) => {
 const updateUser = async (request: Request, h: ResponseToolkit) => {
     try {
         const { id } = request.params as IUsers;
-        const { email, password, active } = request.payload as IUsers;
+        const { email, password, active, firstname, lastname, admin } =
+            request.payload as IUsers;
         const userExisting = await Users.User.findOne({
             where: {
                 id: id,
             },
         });
         if (userExisting) {
-            const newPassword = await UserAuth.hashPassword(password);
+            const newPassword =
+                password && (await UserAuth.hashPassword(password));
 
             const updatedUser = await Users.User.update(
-                { email: email, password: newPassword, active: active },
+                {
+                    email: email,
+                    password: newPassword || userExisting.password,
+                    active: active,
+                    firstname: firstname && formatText(firstname),
+                    lastname: lastname && lastname.toUpperCase(),
+                    admin: admin,
+                },
                 {
                     where: {
                         id: id,
@@ -92,6 +114,7 @@ const updateUser = async (request: Request, h: ResponseToolkit) => {
         if (error instanceof Error)
             return h
                 .response({
+                    message: 'Update User',
                     error: error.message,
                 })
                 .code(400);

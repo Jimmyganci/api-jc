@@ -2,6 +2,7 @@ import Links from './links';
 import Themes from './themes';
 import Users from './users';
 import Auth from './auth';
+import Token from '../plugins/checkToken';
 
 //here all api's routes
 //method: GET, POST, DELETE or UPDATE
@@ -105,5 +106,18 @@ export default [
         method: 'POST',
         path: '/auth',
         handler: Auth.userLoggedIn,
+    },
+    {
+        method: 'DELETE',
+        path: '/logout',
+        handler: Auth.logout,
+    },
+    //--------------------------
+    //--------Check-------------
+    //-------------------------
+    {
+        method: 'GET',
+        path: '/token',
+        handler: Token.checkToken,
     },
 ];

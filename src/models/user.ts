@@ -9,6 +9,9 @@ interface UserAttributes {
     email: string;
     password: string;
     active: boolean;
+    admin: boolean;
+    firstname: string;
+    lastname: string;
 }
 
 type UserCreationAttributes = Optional<UserAttributes, 'id'>;
@@ -32,6 +35,15 @@ const User = dbConnection.define<UserInstance>('users', {
     },
     active: {
         type: DataTypes.BOOLEAN,
+    },
+    admin: {
+        type: DataTypes.BOOLEAN,
+    },
+    firstname: {
+        type: DataTypes.STRING,
+    },
+    lastname: {
+        type: DataTypes.STRING,
     },
 });
 

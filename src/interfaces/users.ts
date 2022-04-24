@@ -4,6 +4,9 @@ interface IUsers {
     email: string;
     password: string;
     active: boolean;
+    admin: boolean;
+    firstname: string;
+    lastname: string;
 }
 
 export default IUsers;
