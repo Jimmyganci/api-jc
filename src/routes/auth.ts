@@ -23,10 +23,6 @@ const userLoggedIn = async (request: Request, h: ResponseToolkit) => {
                 getUser.password
             );
             if (verifPassword) {
-                // const hashValueToken = await UserAuth.hashPassword(
-                //     getUser.email + ' ' + getUser.id
-                // );
-
                 const token = UserAuth.calculateToken(
                     getUser.email,
                     getUser.id

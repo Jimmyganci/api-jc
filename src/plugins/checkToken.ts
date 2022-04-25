@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 const checkToken = async (request: Request, h: ResponseToolkit) => {
     const tokenDecoded = jwt.decode(request.state.data);
     try {
-        console.log(tokenDecoded);
         if (tokenDecoded === null) {
             return h.response({ error: 'You are not connected' }).code(401);
         } else {
